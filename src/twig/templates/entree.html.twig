@@ -1,0 +1,27 @@
+<!-- cieweb/src/twig/templates/entree.html.twig -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cieweb - entrée</title>
+	</head>
+	<body>
+		<div id="content">
+			<p>Entrée 5</p>
+			{% block body %}
+			<p></p>
+			{% endblock %}
+
+			{{ form_start(form) }}
+    			{{ form_widget(form) }}
+
+    			<input type="submit" />
+			{{ form_end(form) }}
+
+
+
+
+			
+		</div>
+	</body>
+</html>

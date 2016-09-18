@@ -1,0 +1,16 @@
+# routes.yml
+foo:
+    path:     /foo
+    defaults: { _controller: 'Foo\Controller\FooController::indexAction' }
+
+bar:
+    path:     /bar
+    defaults: { _controller: 'Bar\Controller\BarController::indexAction' }
+
+hello:
+    path: /hello/{name}
+    defaults: { _controller: 'Hello\Controller\HelloController::indexAction' }
+
+entree:
+    path: /admin/entree
+    defaults: { _controller: 'Cieweb\Controller\EntreeController::indexAction' }
