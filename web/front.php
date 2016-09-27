@@ -1,7 +1,5 @@
 <?php
 // cieweb/web/front.php
-require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/../vendor/twig/twig/lib/Twig/Autoloader.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +13,13 @@ use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
+// ceci ajouté pour utiliser Doctrine
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
+require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/twig/twig/lib/Twig/Autoloader.php';
+
 
 Twig_Autoloader::register();
 
@@ -62,11 +67,29 @@ function render_template_twig($request, $arrayData)
     return new Response($content);
 }
 
+// pour utiliser doctrine --------------------------------
+
+$isDevMode = true; // lié à doctrine
+$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/../app/config/"), $isDevMode);
+// database configuration parameters
+
+$conn = array(
+    'driver'   => 'pdo_mysql',
+    'user'     => 'foo6',
+    'password' => 'foo6pwd',
+    'dbname'   => 'cieweb',
+);
+
+// obtaining the entity manager
+$entityManager = EntityManager::create($conn, $config);
+
+// pour mettre en place le framework global -------------
+
 $request = Request::createFromGlobals();
 $routes = include __DIR__.'/../app/app.php';
 
 $context = new Routing\RequestContext();
-//$context->fromRequest($request);
+
 $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 $resolver = new HttpKernel\Controller\ControllerResolver();
 

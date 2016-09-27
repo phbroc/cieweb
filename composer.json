@@ -8,9 +8,11 @@
         "symfony/templating": "^3.1",
         "twig/twig": "~1.0",
         "symfony/form": "^3.1",
-        "symfony/twig-bridge": "^3.1"
+        "symfony/twig-bridge": "^3.1",
+        "doctrine/orm": "^2.5",
+        "symfony/validator": "^3.1"
     },
     "autoload": {
-        "psr-4": { "": "src/" }
+        "psr-0": { "": "src/" }
     }
 }
