@@ -1,0 +1,21 @@
+body {
+    background-color: #eee;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: gray;
+}
+
+label {
+    display: inline-block;
+    width: 250px;
+}
+
+input {
+    margin: 1px;
+}
+
+button {
+    margin: 4px;
+}

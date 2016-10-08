@@ -1,0 +1,40 @@
+# config/Personne.dcm.yml
+Cieweb\Entity\Personne:
+  type: entity
+  table: personne
+  id:
+    id_personne:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    pseudo:
+      type: string
+      length: 20
+      nullable: false
+    email:
+      type: string
+      length: 50
+      nullable: false
+    nom:
+      type: string
+      length: 20
+      nullable: false
+    prenom:
+      type: string
+      length: 20
+      nullable: false
+    passe:
+      type: string
+      length: 32
+      nullable: false
+    phrase:
+      type: string
+      length: 100
+      nullable: false
+    admin:
+      type: string
+      length: 1
+      nullable: false
+      options:
+        default: N

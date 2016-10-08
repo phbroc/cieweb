@@ -10,4 +10,3 @@ require_once 'front.php';
 // $entityManager = GetEntityManager(); 
 
 return ConsoleRunner::createHelperSet($entityManager);
-?>

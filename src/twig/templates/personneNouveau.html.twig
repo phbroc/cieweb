@@ -1,0 +1,37 @@
+<!-- cieweb/src/twig/templates/personneNouveau.html.twig -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cieweb - nouvelle personne</title>
+		{% block stylesheets %}
+            		<link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
+	</head>
+	<body>
+		<div id="content">
+			<h1>Nouvelle personne</h1>
+
+			{{ form_start(form) }}
+
+    			{{ form_errors(form) }}
+
+    			{{ form_row(form.pseudo, { 'label': 'Pseudo' }) }}
+			{{ form_row(form.email, { 'label': 'Email' }) }}
+			{{ form_row(form.prenom, { 'label': 'Prénom' }) }}
+			{{ form_row(form.nom, { 'label': 'Nom' }) }}
+			{{ form_row(form.passe, { 'label': 'Mot de passe' }) }}
+			{{ form_row(form.phrase, { 'label': 'Phrase aide mémoire' }) }}
+			{{ form_row(form.admin, { 'label': 'Administrateur' }) }}
+
+			{{ form_widget(form.save, { 'label': 'Ajouter' }) }}
+
+			{{ form_end(form) }}
+
+
+
+
+			
+		</div>
+	</body>
+</html>

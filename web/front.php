@@ -97,4 +97,3 @@ $framework = new Cieweb\Framework($matcher, $resolver);
 $response = $framework->handle($request);
 
 $response->send();
-?>
