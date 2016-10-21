@@ -1,5 +1,5 @@
 <?php
-// cieweb/web/front.php
+// cieweb/web/app.php
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,9 +13,7 @@ use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
-// ceci ajouté pour utiliser Doctrine
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
+
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../vendor/twig/twig/lib/Twig/Autoloader.php';
@@ -48,40 +46,24 @@ function render_template_phpEngine($request, $arrayData)
 function render_template_twig($request, $arrayData)
 {
     extract($request->attributes->all(), EXTR_SKIP);
-    
+
     $twigloader = new Twig_Loader_Filesystem(__DIR__.'/../src/twig/templates');
     $twig = new Twig_Environment($twigloader, array(
  //       'cache' => __DIR__.'/../src/twig/cache', ****************************** j'ai commenté la ligne pour éviter la mise en cache, phase de dev'
     ));
-    
+
     $formEngine = new TwigRendererEngine(array(DEFAULT_FORM_THEME));
     $formEngine->setEnvironment($twig);
-    
+
     $twig->addExtension(
         new FormExtension(new TwigRenderer($formEngine))
     );
-    
+
     $template = $twig->loadTemplate(sprintf('%s.html.twig', $_route));
 
     $content = $template->render($arrayData);
     return new Response($content);
 }
-
-// pour utiliser doctrine --------------------------------
-
-$isDevMode = true; // lié à doctrine
-$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/../app/config/"), $isDevMode);
-// database configuration parameters
-
-$conn = array(
-    'driver'   => 'pdo_mysql',
-    'user'     => 'foo6',
-    'password' => 'foo6pwd',
-    'dbname'   => 'cieweb',
-);
-
-// obtaining the entity manager
-$entityManager = EntityManager::create($conn, $config);
 
 // pour mettre en place le framework global -------------
 

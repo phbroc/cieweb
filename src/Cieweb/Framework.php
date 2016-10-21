@@ -22,7 +22,7 @@ class Framework
         $this->matcher = $matcher;
         $this->resolver = $resolver;
     }
-    
+
     protected function fileResponse($path, $extension)
     {
         $pos = strrpos($path, "/");
@@ -42,7 +42,8 @@ class Framework
         );
         // detecter le type de fichier?
         // à compléter car là c'est uniquement à CSS
-        if ($extension === '.css') $response->headers->set('Content-Type', 'text/css'); 
+        if ($extension === '.css') $response->headers->set('Content-Type', 'text/css');
+        $response->setMaxAge(86400); // nombre de secondes dans 24h.
         $response->prepare(Request::createFromGlobals());
         return $response;
     }
@@ -77,3 +78,5 @@ class Framework
         }
     }
 }
+
+
