@@ -1,16 +1,16 @@
-<!-- cieweb/src/twig/templates/personneNouveau.html.twig -->
+<!-- cieweb/src/twig/templates/personneChangement.html.twig -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Cieweb - nouvelle personne</title>
+		<title>Cieweb - changement sur la personne</title>
 		{% block stylesheets %}
             		 <link rel="stylesheet" href="/css/style.css">
 		{% endblock %}
 	</head>
 	<body>
 		<div id="content">
-			<h1>Nouvelle personne</h1>
+			<h1>Changement sur la personne</h1>
 
 			{{ form_start(form) }}
 
@@ -20,16 +20,18 @@
 					{{ form_row(form.email, { 'label': 'Email', 'attr': {'maxlength': '50'} }) }}
 					{{ form_row(form.prenom, { 'label': 'Prénom', 'attr': {'maxlength': '20'} }) }}
 					{{ form_row(form.nom, { 'label': 'Nom', 'attr': {'maxlength': '20'} }) }}
-					{{ form_row(form.passe, { 'label': 'Mot de passe', 'attr': {'maxlength': '32'} }) }}
+					{{ form_row(form.passe, { 'label': 'Nouveau mot de passe', 'attr': {'maxlength': '32'} }) }}
+					{{ form_row(form.passeConfirme, { 'label': 'Confirmez ce passe', 'attr': {'maxlength': '32'} }) }}
 					{{ form_row(form.phrase, { 'label': 'Phrase aide mémoire', 'attr': {'maxlength': '100'} }) }}
 					{{ form_row(form.admin, { 'label': 'Administrateur' }) }}
 
-					{{ form_widget(form.save, { 'label': 'Ajouter' }) }}
+					{{ form_widget(form.save, { 'label': 'Modifier' }) }}
 
 			{{ form_end(form) }}
 
-			{% if errors %}
-			  <h3>Liste des erreurs</h3>
+			<h3>Liste des erreurs</h3>
+
+			{% if errors is iterable %}
 				<ul>
 					{% for error in errors %}
     				<li>{{ error.message }}</li>
@@ -37,9 +39,18 @@
 				</ul>
 			{% endif %}
 
+			{% if errorsCustom is iterable %}
+				<ul>
+					{% for values in errorsCustom %}
+    				<li>{{ values }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
 			{% block debug %}
-				<p>debug...: {{debug}} </p>
+			<p>debug...: {{debug}} </p>
 			{% endblock %}
+
 
 		</div>
 	</body>

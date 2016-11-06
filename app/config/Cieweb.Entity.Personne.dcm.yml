@@ -38,3 +38,6 @@ Cieweb\Entity\Personne:
       nullable: false
       options:
         default: N
+  uniqueConstraints:
+    search_idx:
+      columns: [ pseudo ]

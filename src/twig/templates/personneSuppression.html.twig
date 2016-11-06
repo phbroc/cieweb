@@ -1,0 +1,32 @@
+<!-- cieweb/src/twig/templates/personneSuppression.html.twig -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cieweb - suppression de la personne</title>
+		{% block stylesheets %}
+            		 <link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
+	</head>
+	<body>
+		<div id="content">
+			<h1>Suppression de la personne</h1>
+
+			{% block personne %}
+			<p>Voulez-vous supprimer la personne: {{personne.prenom}} {{personne.nom}}&nbsp;?</p>
+			{% endblock %}
+
+			{{ form_start(form) }}
+    			{{ form_errors(form) }}
+					{{ form_widget(form.save, { 'label': 'Supprimer' }) }}
+			{{ form_end(form) }}
+
+
+			{% block debug %}
+			<p>debug...: {{debug}} </p>
+			{% endblock %}
+
+
+		</div>
+	</body>
+</html>

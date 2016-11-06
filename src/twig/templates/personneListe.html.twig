@@ -1,0 +1,31 @@
+<!-- cieweb/src/twig/templates/personneListe.html.twig -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cieweb - liste des personnes</title>
+		{% block stylesheets %}
+            		 <link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
+	</head>
+	<body>
+		<div id="content">
+			<h1>Liste des personnes</h1>
+
+
+
+
+			{% for personne in personnes %}
+				<p>
+				  ID:{{ personne.id_personne }}
+					pseudo:{{ personne.pseudo }}
+					Prenom:{{ personne.prenom }}
+					Nom:{{ personne.nom }}
+					Admin:{{ personne.admin }}
+				</p>
+			{% endfor %}
+
+
+		</div>
+	</body>
+</html>

@@ -21,3 +21,15 @@ entree:
 personneNouveau:
     path: /admin/personne/nouveau
     defaults: { _controller: 'Cieweb\Controller\PersonneNouveauController::indexAction' }
+
+personneListe:
+    path: /admin/personne/liste
+    defaults: { _controller: 'Cieweb\Controller\PersonneListeController::indexAction' }
+
+personneChangement:
+    path: /admin/personne/changement/{id_personne}
+    defaults: { _controller: 'Cieweb\Controller\PersonneChangementController::indexAction' }
+
+personneSuppression:
+    path: /admin/personne/suppression/{id_personne}
+    defaults: { _controller: 'Cieweb\Controller\PersonneSuppressionController::indexAction' }
