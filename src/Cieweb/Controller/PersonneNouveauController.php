@@ -38,6 +38,7 @@ class PersonneNouveauController
             ->add('prenom', TextType::class)
             ->add('nom', TextType::class)
             ->add('passe', PasswordType::class)
+            ->add('passeConfirme', PasswordType::class)
             ->add('phrase', TextType::class)
             ->add('admin', CheckboxType::class, array('required' => false,))
             ->add('save', SubmitType::class)
@@ -47,6 +48,8 @@ class PersonneNouveauController
 
         $debug = "";
         $errors = array();
+        // custom validation outside form validation
+        $errorsCustom = array();
 
         if ($form->isValid()) {
             $data = $form->getData();
@@ -64,9 +67,17 @@ class PersonneNouveauController
               ->addMethodMapping('loadValidatorMetadata')
               ->getValidator();
             $errors = $validator->validate($personne);
-            if (count($errors) > 0) {
+
+            // RepeatedType Field ne fonctionne pas dans ma configuration, donc j'ajoute une validation perso.
+            if ($data['passe'] != $data['passeConfirme']) array_push(
+                $errorsCustom, 'Vous devez saisir le mot de passe deux fois de façon identique.'
+              );
+
+            if ((count($errors) > 0) || (count($errorsCustom) > 0)) {
               $debug .= " Validation error...";
             } else {
+              // la transformation md5 du passe doit se faire maintenant
+              $personne->setPasse(md5($data['passe']));
               $this->entityManager->persist($personne);
               $this->entityManager->flush();
               $debug .= " Personne added with ID: ". $personne->getId_personne();
@@ -79,6 +90,7 @@ class PersonneNouveauController
             'form' => $form->createView(),
             'debug' => $debug,
             'errors' => $errors,
+            'errorsCustom' => $errorsCustom,
         ));
         return $response;
     }

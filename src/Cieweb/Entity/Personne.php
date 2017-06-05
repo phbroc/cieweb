@@ -22,14 +22,50 @@ class Personne
     */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-      // valid pseudo is 5-20 characters long
+      // valid pseudo is 4-20 characters long
       $metadata->addPropertyConstraint('pseudo', new Assert\Length(array(
-        'min' => 3,
+        'min' => 4,
         'max' => 20,
-        'minMessage' => 'Le pseudo doit avoir une longueur minimum de 3 caractères.',
+        'minMessage' => 'Le pseudo doit avoir une longueur minimum de 4 caractères.',
         'maxMessage' => 'Le pseudo doit avoir une longueur maximum de 20 caractères.',
       )));
+      // custom validation le pseudo doit être unique.
       $metadata->addPropertyConstraint('pseudo', new PersonneUniquePseudo());
+      // majuscule minuscule chiffre sont les seuls autorisés dans pseudo
+      $metadata->addPropertyConstraint('pseudo', new Assert\Regex(array(
+        'pattern' => '/^[a-zA-Z0-9]*$/',
+        'message' => 'Le pseudo doit contenir uniquement des lettres sans accents et des chiffres, sans espace.',
+      )));
+      // passe ne doit contenir que majuscule minuscule chiffre et quelques caractères spéciaux
+      $metadata->addPropertyConstraint('passe', new Assert\Regex(array(
+        'pattern' => '/^[a-zA-Z0-9\+\-\/\*\$_]*$/',
+        'message' => 'Le mot de passe doit contenir uniquement des lettres ou des chiffres ou des caractères accentués comme +-/*$_, sans espace.',
+      )));
+      // passe a une longueur entre 4 et 8
+      $metadata->addPropertyConstraint('passe', new Assert\Length(array(
+        'min' => 4,
+        'max' => 8,
+        'minMessage' => 'Le passe doit avoir une longueur minimum de 4 caractères.',
+        'maxMessage' => 'Le passe doit avoir une longueur maximum de 8 caractères.',
+      )));
+      // le nom ne doit pas contenir de balise html
+      $metadata->addPropertyConstraint('nom', new Assert\Regex(array(
+        'pattern' => '/[<>]/',
+        'match'   => false,
+        'message' => 'Le nom ne doit pas contenir les caractères < et >.',
+      )));
+      // le prenom ne doit pas contenir de balise html
+      $metadata->addPropertyConstraint('prenom', new Assert\Regex(array(
+        'pattern' => '/[<>]/',
+        'match'   => false,
+        'message' => 'Le nom ne doit pas contenir les caractères < et >.',
+      )));
+      // la phrase ne doit pas contenir de balise html
+      $metadata->addPropertyConstraint('phrase', new Assert\Regex(array(
+        'pattern' => '/<[^>]*>/',
+        'match'   => false,
+        'message' => 'La phrase aide mémoire ne doit pas contenir de balise HTML.',
+      )));
     }
 
     public function getId_personne()
