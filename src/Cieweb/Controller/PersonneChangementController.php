@@ -99,6 +99,8 @@ class PersonneChangementController
             if ((count($errors) > 0) || (count($errorsCustom) > 0)) {
               $debug .= " Validation error...";
             } else {
+              // la transformation md5 du passe doit se faire maintenant
+              $personne->setPasse(md5($data['passe']));
               $this->entityManager->persist($personne);
               $this->entityManager->flush();
               $debug .= " Personne updated with ID: ". $personne->getId_personne();

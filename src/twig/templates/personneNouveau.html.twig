@@ -20,7 +20,8 @@
 					{{ form_row(form.email, { 'label': 'Email', 'attr': {'maxlength': '50'} }) }}
 					{{ form_row(form.prenom, { 'label': 'Prénom', 'attr': {'maxlength': '20'} }) }}
 					{{ form_row(form.nom, { 'label': 'Nom', 'attr': {'maxlength': '20'} }) }}
-					{{ form_row(form.passe, { 'label': 'Mot de passe', 'attr': {'maxlength': '32'} }) }}
+					{{ form_row(form.passe, { 'label': 'Mot de passe', 'attr': {'maxlength': '8'} }) }}
+					{{ form_row(form.passeConfirme, { 'label': 'Confirmez ce passe', 'attr': {'maxlength': '8'} }) }}
 					{{ form_row(form.phrase, { 'label': 'Phrase aide mémoire', 'attr': {'maxlength': '100'} }) }}
 					{{ form_row(form.admin, { 'label': 'Administrateur' }) }}
 
@@ -28,11 +29,21 @@
 
 			{{ form_end(form) }}
 
-			{% if errors %}
-			  <h3>Liste des erreurs</h3>
+			<h3>Liste des erreurs</h3>
+
+
+			{% if errors is iterable %}
 				<ul>
 					{% for error in errors %}
     				<li>{{ error.message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if errorsCustom is iterable %}
+				<ul>
+					{% for values in errorsCustom %}
+    				<li>{{ values }}</li>
 					{% endfor %}
 				</ul>
 			{% endif %}

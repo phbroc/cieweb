@@ -10,9 +10,10 @@ use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
 // ceci ajouté pour étendre twig avec des formulaires
-use Symfony\Bridge\Twig\Form\TwigRendererEngine;
+use Symfony\Component\Form\Forms;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -20,9 +21,6 @@ require_once __DIR__.'/../vendor/twig/twig/lib/Twig/Autoloader.php';
 
 
 Twig_Autoloader::register();
-
-define('DEFAULT_FORM_THEME', 'form_div_layout.html.twig');
-
 
 function render_template($request)
 {
@@ -46,17 +44,34 @@ function render_template_phpEngine($request, $arrayData)
 function render_template_twig($request, $arrayData)
 {
     extract($request->attributes->all(), EXTR_SKIP);
+    // les lignes qui suivent définissant les répertoires pour le templating doivent rester dans cette fonction.
+    // the Twig file that holds all the default markup for rendering forms
+    // this file comes with TwigBridge
+    $defaultFormTheme = 'form_div_layout.html.twig';
+    $appVariableReflection = new \ReflectionClass('\Symfony\Bridge\Twig\AppVariable');
+    $vendorTwigBridgeDir = dirname($appVariableReflection->getFileName());
+    // the path to your other templates
+    $viewsDir = realpath(__DIR__.'/../src/twig/templates');
 
-    $twigloader = new Twig_Loader_Filesystem(__DIR__.'/../src/twig/templates');
-    $twig = new Twig_Environment($twigloader, array(
- //       'cache' => __DIR__.'/../src/twig/cache', ****************************** j'ai commenté la ligne pour éviter la mise en cache, phase de dev'
+    $twigloader = new Twig_Loader_Filesystem(array(
+	$viewsDir,
+    	$vendorTwigBridgeDir.'/Resources/views/Form',
     ));
+    
+    $twig = new Twig_Environment($twigloader, array(
+ 		//'cache' => __DIR__.'/../src/twig/cache', ******************* j'ai commenté la ligne pour éviter la mise en cache, phase de dev'
+    ));
+    $formEngine = new TwigRendererEngine(array($defaultFormTheme), $twig);
+    $twig->addRuntimeLoader(new \Twig_FactoryRuntimeLoader(array(
+    		TwigRenderer::class => function () use ($formEngine) {
+        				return new TwigRenderer($formEngine);
+    				       },
+    )));
 
-    $formEngine = new TwigRendererEngine(array(DEFAULT_FORM_THEME));
-    $formEngine->setEnvironment($twig);
+
 
     $twig->addExtension(
-        new FormExtension(new TwigRenderer($formEngine))
+        new FormExtension()
     );
 
     $template = $twig->loadTemplate(sprintf('%s.html.twig', $_route));
@@ -79,3 +94,4 @@ $framework = new Cieweb\Framework($matcher, $resolver);
 $response = $framework->handle($request);
 
 $response->send();
+

@@ -4,24 +4,25 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Cieweb - entrée</title>
+		{% block stylesheets %}
+            		 <link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
 	</head>
 	<body>
 		<div id="content">
-			<p>Entrée 5</p>
-			{% block body %}
-			<p></p>
-			{% endblock %}
+			<h1>Entrée de la partie administration</h1>
 
 			{{ form_start(form) }}
-    			{{ form_widget(form) }}
-
-    			<input type="submit" />
+    			{{ form_errors(form) }}
+					{{ form_row(form.pseudo, { 'label': 'Pseudo', 'attr': {'maxlength': '20'} }) }}
+					{{ form_row(form.passe, { 'label': 'Mot de passe', 'attr': {'maxlength': '20'} }) }}
+    			{{ form_widget(form.entree, { 'label': 'Entrée' }) }}
 			{{ form_end(form) }}
 
 
 
 
-			
+
 		</div>
 	</body>
 </html>
