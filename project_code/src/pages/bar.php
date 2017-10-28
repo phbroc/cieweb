@@ -1,2 +1,5 @@
 <!-- cieweb/src/pages/bar.php -->
-<?php echo 'Bar!'; ?>
+<?php 
+echo 'Bar! '; 
+echo $debug;
+?>

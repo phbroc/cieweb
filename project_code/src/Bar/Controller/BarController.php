@@ -9,7 +9,10 @@ class BarController
 {
     public function indexAction(Request $request)
     {
-        $response = render_template_phpEngine($request, array());
+        //$debug = $this->container->getParameter('kernel.root_dir'); KO
+        //$debug = $this->get('kernel')->getRootDir(); KO
+        $debug = 'test';
+        $response = render_template_phpEngine($request, array('debug' => $debug));
         return $response;
     }
 }
